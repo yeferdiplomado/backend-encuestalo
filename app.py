@@ -40,7 +40,7 @@ def login():
             "message":"Usuario no existe"
         })
     
-    pass_correct = bcrypt.check_password_hash(usuario[3], password)
+    pass_correct = bcrypt.check_password_hash(usuario['contrasena'], password)
     if pass_correct:
         token = create_access_token(identity=usuario['id'])
         return jsonify({"token": token})
@@ -54,9 +54,7 @@ def crearUsuario():
     datos = request.json
     
     cursor = db.cursor()
-    print(datos["password"])
     pwd_hash = bcrypt.generate_password_hash(datos['password']).decode('utf-8')
-
 
     cursor.execute('''INSERT INTO usuario(nombres, email, contrasena)
         VALUE(%s, %s, %s)''', (
