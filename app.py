@@ -37,14 +37,16 @@ def login():
     
     if not usuario:
         return jsonify({
-            "message":"Datos de acceso invalidos"
+            "message":"Usuario no existe"
         })
-
-    token = create_access_token(identity=usuario['id'])
-
-    return jsonify({
-        "token": token
-    })
+    
+    pass_correct = bcrypt.check_password_hash(usuario[2], password)
+            if pass_correct:
+                token = create_access_token(identity=usuario['id'])
+                return jsonify({
+                    "token": token
+                })
+            return jsonify({"message": "credenciales invalidas"})
 
 ######### USUARIOS #########
 ######### REGISTER #########
