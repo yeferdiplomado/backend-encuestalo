@@ -74,7 +74,7 @@ def crearUsuario():
 def listarUsuarios():
     cursor = db.cursor(dictionary=True)
 
-    cursor.execute('SELECT * FROM usuario')
+    cursor.execute('SELECT id, nombres, email FROM usuario')
 
     usuarios = cursor.fetchall()
 
@@ -84,7 +84,7 @@ def listarUsuarios():
 @jwt_required()
 def obtenerUnUsuario(id):
     cursor = db.cursor(dictionary=True)
-    cursor.execute('SELECT * FROM usuario WHERE id=%s', (id,))
+    cursor.execute('SELECT id, nombres, email FROM usuario WHERE id=%s', (id,))
 
     usuario = cursor.fetchone()
 
