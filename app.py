@@ -1,5 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
+from flask_bcrypt import Bcrypt
 from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 import mysql.connector
 
@@ -15,6 +16,7 @@ app = Flask(__name__)
 app.config["JWT_SECRET_KEY"] = "ELPRRITONICKOSEMURO"
 jwt = JWTManager(app)
 CORS(app)
+bcrypt = Bcrypt(app)
 
 @app.route('/')
 def index():
@@ -45,18 +47,22 @@ def login():
     })
 
 ######### USUARIOS #########
+######### REGISTER #########
 
 @app.post('/usuarios')
 def crearUsuario():
     datos = request.json
     
     cursor = db.cursor()
+    print(datos["password"])
+    pwd_hash = bcrypt.generate_password_hash(datos['password']).decode('utf-8')
+
 
     cursor.execute('''INSERT INTO usuario(nombres, email, contrasena)
         VALUE(%s, %s, %s)''', (
         datos['nombres'],
         datos['email'],
-        datos['contrasena'],
+        pwd_hash,
     ))
 
     db.commit()
