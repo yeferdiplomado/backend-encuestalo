@@ -40,7 +40,7 @@ def login():
             "message":"Usuario no existe"
         })
     
-    pass_correct = bcrypt.check_password_hash(usuario[2], password)
+    pass_correct = bcrypt.check_password_hash(usuario[3], password)
     if pass_correct:
         token = create_access_token(identity=usuario['id'])
         return jsonify({"token": token})
