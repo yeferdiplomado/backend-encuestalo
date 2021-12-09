@@ -31,7 +31,7 @@ def login():
 
     cursor = db.cursor(dictionary=True, buffered=True)
 
-    cursor.execute('SELECT * FROM usuario WHERE email = %s and contrasena = %s', (email, password,))
+    cursor.execute('SELECT * FROM usuario WHERE email = %s', (email,))
 
     usuario = cursor.fetchone()
     
